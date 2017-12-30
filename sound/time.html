@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="">
+
+  </head>
+
+  <body>
+
+    <button id ="abc" >Make white noise</button>
+    <!-- <canvas id="canvas" style="border:1px solid gray;width:100px;height:50px;" ></canvas> -->
+    <canvas id="canv" style="border:1px solid gray;width:300px;height:50px;" ></canvas>
+  </body>
+    <script src="drsax.js"></script>
+  <script>
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var button = document.querySelector('#abc');
+
+
+    var DSX = new DSX;
+    var osc = new DSX.Osc({type:"sawtooth",freq:200});
+    var gain = new DSX.Amp({gain: 0.3});
+    var adsr = new DSX.ATRS();
+    //var frequrncy_canvas = new DSX.freqDomain('canvas', "gray"); // canvas
+    var amp_canvas = new DSX.ampDomain('canv', "gray", "fix", 7); // canvas
+
+
+    osc.connect(gain);
+    //frequrncy_canvas.getAnalyser(gain);
+    amp_canvas.getAnalyser(gain);
+    gain.connect(DAC);
+
+
+    //
+    // button.onclick = function() {
+    //
+    //     var osc = new DSX.Osc({type:"sawtooth",freq:200});
+    //     osc.start();
+    //     adsr.soundfrom(osc);
+    //     console.log(adsr.gain.gain.value);
+    //     adsr.connect(gain);
+    //     gain.connect(DAC);
+    //
+    // }
+
+    button.onclick = function() {
+
+        //var osc = new DSX.Osc({type:"sawtooth",freq:200});
+        //osc.start();
+
+
+        gain.gain.setValueAtTime(0.1, drsax.currentTime +1, 1);
+
+        // gain.gain.setValueAtTime(0, drsax.currentTime +3, 1);
+
+
+        gain.gain.exponentialRampToValueAtTime(0.01, drsax.currentTime + 2 , 3);
+        gain.gain.exponentialRampToValueAtTime(0.6, drsax.currentTime + 5, 2);
+        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 7 , 1);
+        //
+        // gain.gain.exponentialRampToValueAtTime(0.01, drsax.currentTime + 2 , 3);
+        // gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 5, 3);
+        // gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 8, 2);
+        // gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 10 , 1);
+        //
+        // osc.freq.exponentialRampToValueAtTime(300, drsax.currentTime + 2 , 3);
+        // osc.freq.exponentialRampToValueAtTime(600, drsax.currentTime + 5, 3);
+        // osc.freq.exponentialRampToValueAtTime(400, drsax.currentTime + 8, 3);
+        // osc.freq.linearRampToValueAtTime(0, drsax.currentTime + 11 , 1);
+
+        // this.gain.gain.linearRampToValueAtTime(1, this.now+ 0.01 + this.attack.value ,2);
+        // this.gain.gain.linearRampToValueAtTime(0 , this.now +2 + this.attack.value + this.release.value,2);
+
+        osc.start();
+
+    }
+  </script>
+</html>
