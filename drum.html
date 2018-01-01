@@ -226,8 +226,8 @@ ul.tab li a:focus, .active {
 
   <input type="button" value=" see "onclick="see();" />
   <input type="radio" style="display:inline-block; margin:0px; "   name="hong" value="2" onClick="saw();" />
-<p style="display:inline-block; margin:0px; "  >  Sawtooh &nbsp </p>
-  <input type="radio" style="display:inline-block; margin:0px; " name="hong" value="2" onClick= "oscillator.type = 'square';"/> <p style="display:inline-block; margin:0px; "  >Square    </p>
+<p style="display:inline-block;margin:0px;">  Sawtooh</p>
+  <input type="radio" style="display:inline-block; margin:0px;" name="hong" value="2" onClick= "oscillator.type ='square';"/> <p style="display:inline-block; margin:0px; "  >Square    </p>
        <input type="button" value="CLICK "  onclick="text();" />
        <webaudio-switch id="switch3" style="display:inline-block; margin:0px; " src="cont/img/onoff.png" value="0" height="80" width="80" ></webaudio-switch>
        <input type="button" class="stop-button" value="on"  onClick="drum1();" />
@@ -297,7 +297,6 @@ ul.tab li a:focus, .active {
   </div>
 
 
-    <script src="/socket.io/socket.io.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.js"></script>
 
 
@@ -336,7 +335,7 @@ function closeNav() {
 </script>
   <script>
 
- var socket = io();
+
 
 function text() {
 
@@ -345,16 +344,11 @@ var  text;
 text = prompt (" hi Dr.Hong ");
 
 
-socket.emit('10',text);
+
 
 }
 
- socket.on('10',function(text){
-document.getElementById("text1").innerText = text;
 
-
-
-    });
 
     </script>
 
@@ -471,27 +465,10 @@ var ppp = setTimeout(function(){
 
     </script>
 
-    <script>
-
-     var socket = io();
-function saw()
-
-{
-
-
-  socket.emit('user', 'data');
-                                   }
-
- socket.on('user',function(data){
-     oscillator.type = 'sawtooth';
-
-}
-
-</script >
 
 <script>
 
- var socket = io();
+
 
        var knob1 = document.getElementById('knob1');
        knob1.addEventListener("change",knob11,false);
@@ -500,18 +477,8 @@ function saw()
         var str= 0;
        str= data.target.value
             oscillator.frequency.value  = str;
-       socket.emit('7', str);
+
        }
-
-     socket.on('7',function(str){
-      oscillator.frequency.value  = str;
-     document.getElementById('knob1').innerHTML = str ;
-     document.getElementById('ver1').value = str ;
-
-
-
-    });
-
 
     var knob2 = document.getElementById('knob2');
        knob2.addEventListener("change",knob,false);
@@ -522,17 +489,8 @@ function saw()
         lowpass.frequency.value  = str;
 
 
-      socket.emit('8', str);
-       }
+}
 
-     socket.on('8',function(str){
-      lowpass.frequency.value  = str;
-     document.getElementById('knob2').innerHTML = str ;
-     document.getElementById('ver2').value = str ;
-
-
-
-    });
            var knob3 = document.getElementById('knob3');
        knob3.addEventListener("change",knob33,false);
 
@@ -540,31 +498,17 @@ function saw()
         var str= 0;
        str= data.target.value
         gain.gain.value = str;
-      socket.emit('9', str);
+
        }
-
-     socket.on('9',function(str){
-        gain.gain.value = str;
-     document.getElementById('knob3').innerHTML = str ;
-     document.getElementById('ver3').value = str ;
-
-
-
-    });
 
        function saw(){
         oscillator.type = 'sawtooth';
        socket.emit('user', 'data');
       }
 
-      socket.on('user', function(){
-      oscillator.type = 'sawtooth';
-
-      });
-
 
 </script>
-  
+
 
 
 </html>

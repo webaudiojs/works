@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+
+        <script src="cont/js/platform.js"></script>
+        <link rel="import" href="cont/webcomponents/polymer.html">
+        <link rel="import" href="cont/webcomponents/controls.html">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/osc.css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+
+
+
+
+
+  <!--body start -->
+  <body>
+      <div id ="wrap">
+          <header>
+               <h3 class="head-set" >Make a sound oscillator </h3>
+               <h4 class="head-set_select"id="text" > Interactive Web-Music</h4>
+               <webaudio-switch id="switch3" style="position:absolute;left:260px;top:50px" src="cont/img/onoff.png" value="0" height="80" width="80"></webaudio-switch>
+          </header>
+          <div class="first-layer">
+              <select class="w3-select w3-border select-set" name="option">
+                  <option value="" disabled selected>Choose OSC type</option>
+                  <option value="1">sine</option>
+                  <option value="2">sawtooth</option>
+                  <option value="3">square</option>
+                  <option value="4">triangle</option>
+              </select>
+          </div>
+
+           <br><br>
+
+         <webaudio-knob id="monet2" src="cont/img/red.png" style="position:absolute;left:40px;top:250px " value="0" max="2000" step="1" diameter="150" sprites="30"></webaudio-knob>
+
+           <webaudio-slider id="monet22"  style="position:absolute;left:250px;top:230px"src="./css/slider.png"   knobsrc="./css/knob.png"  value="50" min="0" max="200" step="1" width="50" height="170"  basewidth="40" baseheight="170" knobwidth="40" knobheight="40" ditchLength="100" tooltip="Frequency"></webaudio-slider>
+
+
+
+
+
+
+
+
+
+            <br><br>    <br><br>
+           <br><br>
+             <p style="color:white;position:absolute;left:45px;top:380px;" >    | Sound Timbre  |  </p>
+         <p style="color:white;position:absolute;left:245px;top:390px;" >    | Voulme |  </p>
+
+
+
+             <button class="button1 " type="button"  id="switch5" value="0" max= "1"  style="position:absolute;left:160px;top:440px">sound</button>
+             <button class="button1   " style="position:absolute;left:250px;top:440px" onclick="text();">Talk</button>
+
+
+
+             <BR><BR>
+<!--
+               <div id="myNav" class="overlay">
+           <a class="closebtn" onclick="closeNav()">Open</a>
+           <div class="overlay-content">
+             <a >Interactive web-music </a>
+             <a>Soloist</a> -->
+
+
+
+
+      </div>
+
+
+
+
+
+
+<script>
+
+window.onload = function(){
+   openNav();
+  //openCity(event, 'London');
+
+    // obj.value = "날코천재";
+}
+
+function openNav() {
+    document.getElementById("myNav").style.width = "100%";
+}
+
+function closeNav() {
+    document.getElementById("myNav").style.width = "0%";
+
+}
+
+
+
+   var switch3 = document.getElementById('switch3');
+        switch3.addEventListener("change",sin,false);
+function sin(e) {
+
+        if(e.target.value=="0") {
+      openNav();
+                }
+
+         }
+
+
+</script>
+
+
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+
+  <script >
+
+
+ function text() {
+
+        var text;
+
+        text = prompt("Play the light of Monet");
+
+
+
+
+    }
+
+
+////////////////////////////////////////////
+
+  var monet2 = document.getElementById('monet2');
+       monet2.addEventListener("change",knob_2);
+       function knob_2(data) {
+        var str= 0;
+
+           str= data.target.value ;
+             var c = str;
+
+
+
+
+}
+
+
+
+      ///////////////
+
+  var monet222 = document.getElementById('monet22');
+       monet222.addEventListener("change",knob_22);
+
+       function knob_22(data) {
+        var str= 0;
+
+         str= data.target.value ;
+         var c = str;
+
+
+
+}
+
+
+
+
+
+//////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////// input socket network ////////////////////
+
+ //  var switch3 = document.getElementById('switch3');
+ //       switch3.addEventListener("click",ddd,false);
+
+
+//  function ddd(e) {
+//        str=1;
+ //     str = e.target.value
+
+ //     socket.emit('17', str);
+
+ //     }
+  //    socket.on('17', function(str){
+
+
+ //     if(str=="0") {
+
+  //        aa();
+ //               }
+
+  //    });
+
+
+  /////////////////////////////////////   start ///////////
+
+
+
+    var switch4 = document.getElementById('switch4');
+        switch4.addEventListener("click",dd1,false);
+
+
+  function dd1(e) {
+        str=1;
+      str = e.target.value
+
+
+
+  }
+
+
+
+
+
+
+      ///////////////// stop////////
+
+    function qqqq(){
+         str = 7;
+
+
+      }
+
+   /////////////////////////////////////  mute//////////////
+
+    var mute = document.getElementById('mute');
+        mute.addEventListener("click",dd3,false);
+
+
+  function dd3(e) {
+        str=1;
+      str = e.target.value
+
+
+
+
+
+
+
+
+
+   if(str=="0"){
+
+
+alert(" mute")
+
+                        }
+
+  }
+
+
+
+
+
+
+ ///////////////////////////////////// sound   wave 1 //////////////
+
+    var switch5 = document.getElementById('switch5');
+        switch5.addEventListener("click",dd5,false);
+
+
+  function dd5(e) {
+        str=1;
+      str = e.target.value
+
+
+
+  }
+
+  ///////////////////////////////////// sound 2  //////////////
+
+
+
+
+
+
+</script>
+</body>
+
+</html>
