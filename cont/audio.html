@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+ <script src="js/platform.js"></script>
+
+<link rel="import" href="webcomponents/polymer.html">
+<link rel="import" href="webcomponents/controls.html">
+<style>
+webaudio-knob{margin:10px;}
+webaudio-switch{margin:10px;}
+</style>
+</head>
+<body>
+<!-- Knobs/keyboards are used. You should place webcomponents.min.js / polymer.js / polymer.html / layout.html / controls.html to webcomponents folder -->
+
+    <div style="position:relative;background-image: url('img/back.png');width:980px;height:600px;margin:20px auto;padding:0px;">
+
+<button onclick='audioengine.rebuild();audioengine.start()'>Play</button>
+ <button onclick='audioengine.stop()'>Stop</button><br/>
+<webaudio-switch id="kno"   style="position:absolute;left:70px;top:160px" src="img/switch_toggle.png" width="54" height="54"></webaudio-switch>
+
+<webaudio-switch id="kno"   style="position:absolute;left:110px;top:160px" src="img/switch_toggle.png" width="54" height="54"></webaudio-switch>
+
+  <webaudio-knob id="kno1"   style="position:absolute;left:100px;top:230px" src="img/b-knob.png" value="0" max="50" step="1" diameter="100" sprites="99" ></webaudio-knob>   
+
+   <webaudio-knob id="kno2"   style="position:absolute;left:250px;top:230px" src="img/b-knob.png" value="0" max="50" step="1" diameter="100" sprites="99" ></webaudio-knob>
+<script>
+
+//Usage:
+//  audioengine=new WebAudioEngine();
+//  audioengine.start(NodeName);    -- start specified osc/bufsrc
+//  audioengine.start();            -- start all osc/bufsrc
+//  audioengine.stop(NodeName);     -- stop specified osc/bufsrc
+//  audioengine.stop();             -- stop all osc/bufsrc
+//  audioengine.rebuild(NodeName);  -- prepare specified osc/bufsrc after stop
+//  audioengine.rebuild();          -- prepare all osc/bufsrc nodes after stop
+//access to each node:
+//  audioengine.nodes.NodeName -- ex. audioengine.nodes.osc1
+//  note that osc/bufsrc will be recreated after rebuild()
+
+function WebAudioEngine(audioctx,destination){
+  this.waddata = [{n:"destination",x:568,y:86,mode:0,ver:1,W:800,H:600},{n:"str1",x:186,y:144,c:["gai1"]},{n:"gai1",x:346,y:213,p:{gain:0},c:["destination"]},{n:"kno1",x:500,y:300,p:{val:0},c:["gai1.gain"]}];
+
+  function Knob(id){
+    this.c=[];
+    this.type='kno';
+    this.elem=document.getElementById(id);
+    this.elem.addEventListener('change',function(e){
+      for(var i=this.c.length-1;i>=0;--i){
+        var c=this.c[i];
+        if(c[0].set)
+          c[0].set(e.target.value,c[2]);
+        else if(typeof(c[0].value)=='number')
+          c[0].value=e.target.value;
+        else
+          c[0]=e.target.value;
+      }
+    }.bind(this));
+    this.connect=function(target,o,i){
+      o=o?1:0;
+      i=i?1:0;
+      this.c.push([target,o,i]);
+    };
+  }
+  this.SetupStream=function(){
+    navigator.getUserMedia=(navigator.getUserMedia||navigator.webkitGetUserMedia||navigator.mozGetUserMedia);
+    if(navigator.getUserMedia){
+      navigator.getUserMedia(
+        {audio:true},
+        function(strm){
+          this.strm=strm;
+          this.strmsrc = this.audioctx.createMediaStreamSource(this.strm);
+        }.bind(this),
+        function(err){
+          alert('getUserMedia Error.');
+        }.bind(this)
+      );
+    }
+    else{
+      alert('getUserMedia() not supported.');
+    }
+  };
+  this.audioctx = audioctx;
+  this.nodes = {};
+  this.nodes.destination = destination;
+  if(!audioctx){
+     AudioContext = window.AudioContext||window.webkitAudioContext;
+     this.audioctx = new AudioContext();
+  }
+  if(!destination)
+    this.nodes.destination = this.audioctx.destination;
+  this.strmsrc = 'wait';
+  this.SetupStream();
+  this.build=function(){
+    if((!this.buffers||this.buffers._ready)&&(this.strmsrc!='wait'))
+      clearInterval(this.poll);
+    else
+      return;
+    this.nodes.str1 = this.strmsrc;
+    this.nodes.gai1 = this.audioctx.createGain();
+    this.nodes.gai1.gain.value = 0;
+    this.nodes.kno1 = new Knob('kno1');
+    this.nodes.str1.connect(this.nodes.gai1);
+    this.nodes.gai1.connect(this.nodes.destination);
+    this.nodes.kno1.connect(this.nodes.gai1.gain);
+  };
+  this.rebuild=function(nn){
+    function paramset(node,dat){
+      var p=dat.p;
+      for(var i in p){
+        switch(i){
+        case 'frequency':
+        case 'detune':
+        case 'playbackRate':
+          node[i].value=p[i];
+          break;
+        case 'buffer':
+          node[i]=this.buffers[p[i]].data;
+          break;
+        default:
+          node[i]=p[i];
+          break;
+        }
+      }
+    }
+    for(var i=0;i<this.waddata.length;++i){
+      var n=this.waddata[i].n;
+      if(!nn||nn==this.waddata[i].n){
+        if(n.indexOf('osc')==0){
+          this.nodes[n].disconnect();
+          this.nodes[n]=this.audioctx.createOscillator();
+          paramset.bind(this)(this.nodes[n],this.waddata[i]);
+        }
+        if(n.indexOf('buf')==0){
+          this.nodes[n].disconnect();
+          this.nodes[n]=this.audioctx.createBufferSource();
+          paramset.bind(this)(this.nodes[n],this.waddata[i]);
+        }
+      }
+    }
+    for(i=0;i<this.waddata.length;++i){
+      var n=this.waddata[i].n;
+      if(this.waddata[i].c){
+        for(var j=0;j<this.waddata[i].c.length;++j){
+          var d=this.waddata[i].c[j];
+          var ap=d.split('.');
+          if(ap.length>=2)
+            this.nodes[n].connect(this.nodes[ap[0]][ap[1]]);
+          else
+            this.nodes[n].connect(this.nodes[d]);
+        }
+      }
+    }
+  };
+  this.start=function(nn){
+    if(!nn){
+    }
+    else
+      this.nodes[nn].start(0);
+  };
+  this.stop=function(nn){
+    if(!nn){
+    }
+    else
+      this.nodes[nn].stop(0);
+  };
+  this.poll=setInterval(this.build.bind(this),100);
+}
+window.addEventListener('load',function(){audioengine=new WebAudioEngine()});
+
+
+</script>
+ 
+
+</body>
+</html>
