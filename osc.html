@@ -9,279 +9,153 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./css/osc.css">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="./js/drsax.js"></script>
     </head>
 
+    <!--body start -->
+    <body>
+        <div id ="wrap">
+            <header>
+                <h3 class="head-set" >Make a sound oscillator </h3>
+                <h4 class="head-set_select" id="on_text" > sound off!</h4>
+                <webaudio-switch id="switch"  src="cont/img/onoff.png" value="0" height="80" width="80"></webaudio-switch>
+            </header>
+            <div class="first-layer">
+                <select class="w3-select w3-border select-set" id ="type_change" name="option">
+                    <option value="" disabled selected>Choose OSC type</option>
+                    <option value="sine">sine</option>
+                    <option value="sawtooth">sawtooth</option>
+                    <option value="square">square</option>
+                    <option value="triangle">triangle</option>
+                </select>
+            </div>
+            <div class="second-layer">
+                <webaudio-knob id="pitch" src="cont/img/red.png"  value="0" max="2000" step="1" diameter="150" sprites="30"></webaudio-knob>
+
+                <webaudio-slider id="amp"  style="position:absolute;left:250px;top:230px"src="./css/slider.png"   knobsrc="./css/knob.png"  value="50" min="0" max="1" step="0.011" width="50" height="170"  basewidth="40" baseheight="170" knobwidth="40" knobheight="40" ditchLength="100" tooltip="Frequency"></webaudio-slider>
+
+                <p class ="first"> | Sound Timbre  |  </p>
+                <p class ="second">  | Voulme |  </p>
+            </div>
+            <div class="third-layer">
+                <select class="w3-select w3-border select-preset" id="preset" name="option">
+                    <option value="" disabled selected>preset</option>
+                    <option value="1">spiderman</option>
+                    <option value="2">sawtooth</option>
+                    <option value="3">square</option>
+                    <option value="4">triangle</option>
+                </select>
+            </div>
+
+    </div>
+    <script>
+
+        var DSX = new DSX;
+
+        var osc = new DSX.Osc({type:"sawtooth",freq: 700});
+        var gain = new DSX.Amp({gain: 0.2});
+        osc.connect(gain);
+        gain.connect(DAC);
+
+        var oscfrequency = new DSX.valueChange("pitch", osc.frequency);
+        var ampgain = new DSX.valueChange("amp", gain.gain);
+
+        var sound_on_off = new DSX.functionChange("switch",switch_f);
+        function switch_f(e) {
+            if (e.target.value == "1") {
+                osc.start();
+                $("#on_text").text("sound on!");
+            }
+            if (e.target.value == "0") {
+                osc.stop();
+                $("#on_text").text("sound off!");
+            }
+        }
+
+        $("#type_change").change(function() {
+            osc.type = this.value;
+         });
+        $("#preset").change(function() {
+            osc.start();
+            osc.stop();
+            switch (this.value) {
+                case "1":
+                    osc.start();
+                    gain.gain=0.2;
+                    osc.frequency.value=10;
+                    gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                    gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                    gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                    gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 2 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(20, drsax.currentTime + 4 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
+                    osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                     break;
+                case "2":
+                    osc.start();
+                    gain.gain=0.2;
+                    osc.frequency.value=10;
+                    gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                    gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                    gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                    gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 2 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
+                    osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                     break;
+                case "3":
+                    osc.start();
+                    gain.gain=0.2;
+                    osc.frequency.value=10;
+                    gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                    gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                    gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                    gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
+                    osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                     break;
+                case "4":
+                    osc.start();
+                    gain.gain=0.2;
+                    osc.frequency.value=10;
+                    gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                    gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                    gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                    gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 3 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(8000, drsax.currentTime + 4 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
+                    osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                    break;
+                default:
+
+             }
+          });
+
+
+
+
+
+    </script>
 
-
-
-
-  <!--body start -->
-  <body>
-      <div id ="wrap">
-          <header>
-               <h3 class="head-set" >Make a sound oscillator </h3>
-               <h4 class="head-set_select"id="text" > Interactive Web-Music</h4>
-               <webaudio-switch id="switch3" style="position:absolute;left:260px;top:50px" src="cont/img/onoff.png" value="0" height="80" width="80"></webaudio-switch>
-          </header>
-          <div class="first-layer">
-              <select class="w3-select w3-border select-set" name="option">
-                  <option value="" disabled selected>Choose OSC type</option>
-                  <option value="1">sine</option>
-                  <option value="2">sawtooth</option>
-                  <option value="3">square</option>
-                  <option value="4">triangle</option>
-              </select>
-          </div>
-
-           <br><br>
-
-         <webaudio-knob id="monet2" src="cont/img/red.png" style="position:absolute;left:40px;top:250px " value="0" max="2000" step="1" diameter="150" sprites="30"></webaudio-knob>
-
-           <webaudio-slider id="monet22"  style="position:absolute;left:250px;top:230px"src="./css/slider.png"   knobsrc="./css/knob.png"  value="50" min="0" max="200" step="1" width="50" height="170"  basewidth="40" baseheight="170" knobwidth="40" knobheight="40" ditchLength="100" tooltip="Frequency"></webaudio-slider>
-
-
-
-
-
-
-
-
-
-            <br><br>    <br><br>
-           <br><br>
-             <p style="color:white;position:absolute;left:45px;top:380px;" >    | Sound Timbre  |  </p>
-         <p style="color:white;position:absolute;left:245px;top:390px;" >    | Voulme |  </p>
-
-
-
-             <button class="button1 " type="button"  id="switch5" value="0" max= "1"  style="position:absolute;left:160px;top:440px">sound</button>
-             <button class="button1   " style="position:absolute;left:250px;top:440px" onclick="text();">Talk</button>
-
-
-
-             <BR><BR>
-<!--
-               <div id="myNav" class="overlay">
-           <a class="closebtn" onclick="closeNav()">Open</a>
-           <div class="overlay-content">
-             <a >Interactive web-music </a>
-             <a>Soloist</a> -->
-
-
-
-
-      </div>
-
-
-
-
-
-
-<script>
-
-window.onload = function(){
-   openNav();
-  //openCity(event, 'London');
-
-    // obj.value = "날코천재";
-}
-
-function openNav() {
-    document.getElementById("myNav").style.width = "100%";
-}
-
-function closeNav() {
-    document.getElementById("myNav").style.width = "0%";
-
-}
-
-
-
-   var switch3 = document.getElementById('switch3');
-        switch3.addEventListener("change",sin,false);
-function sin(e) {
-
-        if(e.target.value=="0") {
-      openNav();
-                }
-
-         }
-
-
-</script>
-
-
-    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
-
-  <script >
-
-
- function text() {
-
-        var text;
-
-        text = prompt("Play the light of Monet");
-
-
-
-
-    }
-
-
-////////////////////////////////////////////
-
-  var monet2 = document.getElementById('monet2');
-       monet2.addEventListener("change",knob_2);
-       function knob_2(data) {
-        var str= 0;
-
-           str= data.target.value ;
-             var c = str;
-
-
-
-
-}
-
-
-
-      ///////////////
-
-  var monet222 = document.getElementById('monet22');
-       monet222.addEventListener("change",knob_22);
-
-       function knob_22(data) {
-        var str= 0;
-
-         str= data.target.value ;
-         var c = str;
-
-
-
-}
-
-
-
-
-
-//////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////// input socket network ////////////////////
-
- //  var switch3 = document.getElementById('switch3');
- //       switch3.addEventListener("click",ddd,false);
-
-
-//  function ddd(e) {
-//        str=1;
- //     str = e.target.value
-
- //     socket.emit('17', str);
-
- //     }
-  //    socket.on('17', function(str){
-
-
- //     if(str=="0") {
-
-  //        aa();
- //               }
-
-  //    });
-
-
-  /////////////////////////////////////   start ///////////
-
-
-
-    var switch4 = document.getElementById('switch4');
-        switch4.addEventListener("click",dd1,false);
-
-
-  function dd1(e) {
-        str=1;
-      str = e.target.value
-
-
-
-  }
-
-
-
-
-
-
-      ///////////////// stop////////
-
-    function qqqq(){
-         str = 7;
-
-
-      }
-
-   /////////////////////////////////////  mute//////////////
-
-    var mute = document.getElementById('mute');
-        mute.addEventListener("click",dd3,false);
-
-
-  function dd3(e) {
-        str=1;
-      str = e.target.value
-
-
-
-
-
-
-
-
-
-   if(str=="0"){
-
-
-alert(" mute")
-
-                        }
-
-  }
-
-
-
-
-
-
- ///////////////////////////////////// sound   wave 1 //////////////
-
-    var switch5 = document.getElementById('switch5');
-        switch5.addEventListener("click",dd5,false);
-
-
-  function dd5(e) {
-        str=1;
-      str = e.target.value
-
-
-
-  }
-
-  ///////////////////////////////////// sound 2  //////////////
-
-
-
-
-
-
-</script>
 </body>
 
 </html>
