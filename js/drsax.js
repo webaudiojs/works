@@ -1161,8 +1161,8 @@
         this.dial_10 = document.getElementById(c);
         this.dial_10.addEventListener("change", _dial10, false);
 
-        function _dial10(dial_data) {
-            b.value = dial_data.target.value;
+        function _dial10(e) {
+            b.value = e.target.value;
         }
 
         this.setRange = function(out) {

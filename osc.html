@@ -33,18 +33,18 @@
             <div class="second-layer">
                 <webaudio-knob id="pitch" src="cont/img/red.png"  value="0" max="2000" step="1" diameter="150" sprites="30"></webaudio-knob>
 
-                <webaudio-slider id="amp"  style="position:absolute;left:250px;top:230px"src="./css/slider.png"   knobsrc="./css/knob.png"  value="50" min="0" max="1" step="0.011" width="50" height="170"  basewidth="40" baseheight="170" knobwidth="40" knobheight="40" ditchLength="100" tooltip="Frequency"></webaudio-slider>
+                <webaudio-slider id="amp"  style="position:absolute;left:250px;top:230px"src="./css/slider.png"   knobsrc="./css/knob.png"  value="0.2" min="0" max="1" step="0.01" width="50" height="170"  basewidth="40" baseheight="170" knobwidth="40" knobheight="40" ditchLength="100" tooltip="Frequency"></webaudio-slider>
 
-                <p class ="first"> | Sound Timbre  |  </p>
+                <p class ="first"> | Frequency  |  </p>
                 <p class ="second">  | Voulme |  </p>
             </div>
             <div class="third-layer">
                 <select class="w3-select w3-border select-preset" id="preset" name="option">
-                    <option value="" disabled selected>preset</option>
-                    <option value="1">spiderman</option>
-                    <option value="2">sawtooth</option>
-                    <option value="3">square</option>
-                    <option value="4">triangle</option>
+                    <option value="" selected>preset</option>
+                    <option value="1">bike</option>
+                    <option value="2">siren</option>
+                    <option value="3">space</option>
+                    <!-- <option value="4">triangle</option> -->
                 </select>
             </div>
 
@@ -53,10 +53,10 @@
 
         var DSX = new DSX;
 
-        var osc = new DSX.Osc({type:"sawtooth",freq: 700});
+        var osc = new DSX.Osc({type:"sawtooth",freq: 0});
         var gain = new DSX.Amp({gain: 0.2});
         osc.connect(gain);
-        gain.connect(DAC);
+        //gain.connect(DAC);
 
         var oscfrequency = new DSX.valueChange("pitch", osc.frequency);
         var ampgain = new DSX.valueChange("amp", gain.gain);
@@ -65,10 +65,12 @@
         function switch_f(e) {
             if (e.target.value == "1") {
                 osc.start();
+                gain.connect(DAC);
                 $("#on_text").text("sound on!");
             }
             if (e.target.value == "0") {
                 osc.stop();
+                gain.disconnect();
                 $("#on_text").text("sound off!");
             }
         }
@@ -84,36 +86,64 @@
                     osc.start();
                     gain.gain=0.2;
                     osc.frequency.value=10;
-                    gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
-                    gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
-                    gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
-                    gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                    // gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                    // gain.gain.exponentialRampToValueAtTime(0.7, drsax.currentTime + 3 , 2);
+                    // gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 5 , 1);
+                    // gain.gain.exponentialRampToValueAtTime(0.2, drsax.currentTime + 6 , 3);
+                    // gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 9 , 1);
 
                     osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
                     osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 2 , 1);
                     osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
                     osc.frequency.exponentialRampToValueAtTime(20, drsax.currentTime + 4 , 1);
-                    osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
-                    osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(300, drsax.currentTime + 5 , 2);
+                    osc.frequency.exponentialRampToValueAtTime(5, drsax.currentTime +7 , 2);
+                    osc.frequency.exponentialRampToValueAtTime(14000, drsax.currentTime + 9 ,4);
+                    osc.frequency.exponentialRampToValueAtTime(5, drsax.currentTime +13 , 2);
+                    osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 15 , 1);
 
                      break;
                 case "2":
                     osc.start();
                     gain.gain=0.2;
-                    osc.frequency.value=10;
-                    gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
-                    gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
-                    gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
-                    gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                    osc.frequency.value=523;
+                    // gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                    // gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                    // gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                    // gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 5, 1);
+                    var time= 0;
+                    var myVar = setInterval(function(){
 
-                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
-                    osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 2 , 1);
-                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
-                    osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
-                    osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
-                    osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                         time++
+                         osc.frequency.setValueAtTime(699, drsax.currentTime +time , 0.5);
+                         osc.frequency.setValueAtTime(523 , drsax.currentTime +time +0.5 ,0.5);
+
+                         if ( time === 5 ) {
+                            clearInterval(myVar);
+                            osc.frequency.exponentialRampToValueAtTime(523, drsax.currentTime+time+ 0.5, 1);
+                            osc.frequency.exponentialRampToValueAtTime(0.1, drsax.currentTime+time+ 1.5, 1);
+                         }
+                     }, 500);
+                    // osc.frequency.setValueAtTime(699, drsax.currentTime , 0.5);
+                    // osc.frequency.setValueAtTime(523, drsax.currentTime + 0.5 ,0.5);
+                    // osc.frequency.setValueAtTime(699, drsax.currentTime + 1 , 0.5);
+                    // osc.frequency.setValueAtTime(523, drsax.currentTime  + 1.5 , 0.5);
+                    // osc.frequency.setValueAtTime(699, drsax.currentTime + 2 , 0.5);
+                    // osc.frequency.setValueAtTime(523, drsax.currentTime + 2.5 , 0.5);
+                    // osc.frequency.setValueAtTime(699, drsax.currentTime + 3 , 0.5);
+                    // osc.frequency.setValueAtTime(523, drsax.currentTime + 3.5 , 0.5);
+                    // osc.frequency.setValueAtTime(699, drsax.currentTime + 4, 0.5);
+
+                    //
+                    // osc.frequency.exponentialRampToValueAtTime(699, drsax.currentTime + 1 , 1);
+                    // osc.frequency.setValueAtTime(523, drsax.currentTime +2 , 1);
+                    // osc.frequency.exponentialRampToValueAtTime(699, drsax.currentTime +3 , 1);
+                    // osc.frequency.setValueAtTime(523, drsax.currentTime+ 4 , 1);
+                    // osc.frequency.exponentialRampToValueAtTime(699, drsax.currentTime +5 , 1);
+                    // osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
                      break;
                 case "3":
+
                     osc.start();
                     gain.gain=0.2;
                     osc.frequency.value=10;
@@ -122,16 +152,23 @@
                     gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
                     gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
 
-                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 0.1 , 1);
                     osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
-                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 3 , 1);
                     osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
-                    osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 5 , 1);
                     osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
                      break;
                 case "4":
                     osc.start();
                     gain.gain=0.2;
+                    // osc.frequency.setValueAtTime(131, drsax.currentTime, 0.7);
+                    // osc.frequency.setValueAtTime(0, drsax.currentTime + 0.7, );
+                    // osc.frequency.setValueAtTime(156, drsax.currentTime +0.8 , 0.7);
+                    // osc.frequency.setValueAtTime(0, drsax.currentTime + 1.5, 0);
+                    // osc.frequency.setValueAtTime(175, drsax.currentTime + 1.6 , 0.7);
+                    // osc.frequency.setValueAtTime(0, drsax.currentTime + 2.3, 0);
                     osc.frequency.value=10;
                     gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
                     gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
@@ -140,8 +177,8 @@
 
                     osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
                     osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
-                    osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 3 , 1);
-                    osc.frequency.exponentialRampToValueAtTime(8000, drsax.currentTime + 4 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
+                    osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
                     osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
                     osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
                     break;
