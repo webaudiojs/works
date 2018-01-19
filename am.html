@@ -29,28 +29,25 @@
         <script src="cont/js/platform.js"></script>
         <link rel="import" href="cont/webcomponents/polymer.html">
         <link rel="import" href="cont/webcomponents/controls.html">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="./css/fm.css">
+        <title>AM(amplitude moduration) Synthesizer</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="./js/drsax.js"></script>
-
-        <title>FM(frequency modulation) Synthesizer</title>
     </head>
 
     <body>
-
         <div id="jb-header">
-            <p style="color:white;"> &nbsp;  FM(frequency modulation) Synthesizer
-            </p>
+            <p style="color:white;"> &nbsp;  AM(amplitude moduration) Synthesizer</p>
         </div>
         <ul class="tab">
-            <li><a href="#"  onclick="openTab()">JavaScript code</a></li>
-            <li><a href="#"  onclick="openTab('close')">Close</a></li>
+            <li><a href="#" class="tablinks" onclick="openTab()">JavaScript code</a></li>
+            <li><a href="#" class="tablinks" onclick="openTab('close')">Close</a></li>
             <li><a href="#" >Preset</a></li>
             <li>
                 <select class="w3-select w3-border select-set" id ="preset" name="option">
-                    <option value="" disabled selected> FM Preset</option>
+                    <option value="" disabled selected> AM Preset</option>
                     <option value="1">sine</option>
                     <option value="2">sawtooth</option>
                     <option value="square">square</option>
@@ -60,73 +57,78 @@
         </ul>
         <div id="code" class="tabcontent">
             <h3>Programing code</h3>
-
             <pre>
                 <code>
-                    var DSX = new DSX;
-                    var gain = new DSX.Amp({gain: 0.8});
-                    var fm = new  DSX.FM({carrier_type:"sine",carrier:500,mod_type :"sine",modfreq:700,depth:1800,gain:0.5});
-                    var sax_fm1 =new DSX.valueChange("fm1",fm.carrier);
-                    var sax_fm2 =new DSX.valueChange("fm2",fm.modfreq);
-                    var sax_fm3 =new DSX.valueChange("fm3",fm.depth);
-                    var sax_fm4 =new DSX.valueChange("fm4",fm.gain);
-                    var play = document.querySelector('.play');
-                    var stop = document.querySelector('.stop');
+                var DSX = new DSX;
+                var gain = new DSX.Amp({gain: 0.8});
+                var osc = new DSX.Osc({type:"sine",freq:700});
+                var am = new  DSX.AM({mod_type :"sine",modfreq:200,depth:0.5,gain:0.5});
+                var sax_am1 =new DSX.valueChange("fm1",osc.freq);
+                var sax_am2 =new DSX.valueChange("fm2",am.modfreq);
+                var sax_am3 =new DSX.valueChange("fm3",am.depth);
+                var sax_am4 =new DSX.valueChange("fm4",am.gain);
+                var play = document.querySelector('.play');
+                var stop = document.querySelector('.stop');
 
-                    play.onclick = function() {
-                        fm.connect(gain)
-                        gain.connect(DAC)
+                play.onclick = function() {
+                am.get(osc)
+                am.connect(gain)
+                gain.connect(DAC)
+                osc.start();
+                }
+                stop.onclick = function() {
+                 am.stop();
+                }
 
-                    }
-                    stop.onclick = function() {
-                        fm.stop();
-                    }
                 </code>
             </pre>
         </div>
         <div id="jb-content">
 
-            <p style="color:white;"> &nbsp;   FM(frequency modulation) Synthesizer </p>
 
+            <p style="color:white;"> &nbsp;  AM(amplitude moduration) Synthesizer </p>
             <button class="play">Play</button>
             <button class="stop">Stop</button>
 
-            <webaudio-knob id="fm1" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="5000" min="0" max="20000" step="1" diameter="110" sprites="50"></webaudio-knob>
-
-            <webaudio-knob id="fm2" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="1000" min="0" max="20000" step="1" diameter="110" sprites="50"></webaudio-knob>
-
-            <webaudio-knob id="fm3" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="5" min="0" max="20000" step="0.01" diameter="110" sprites="50"></webaudio-knob>
-
+            <webaudio-knob id="fm1" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="5000" min="0" max="2000" step="1" diameter="110" sprites="50"></webaudio-knob>
+            <webaudio-knob id="fm2" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="1000" min="0" max="2000" step="1" diameter="110" sprites="50"></webaudio-knob>
+            <webaudio-knob id="fm3" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="5" min="0" max="1" step="0.01" diameter="110" sprites="50"></webaudio-knob>
             <webaudio-knob id="fm4" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="0.3" min="0" max="1" step="0.01" diameter="110" sprites="50"></webaudio-knob>
 
-            <font style="display:inline-block; margin:0px;" color="black" size="3">
-                <pre>
-                      Carrier           Modulator            Depth             gain
-                </pre>
 
+            <font style="display:inline-block; margin:0px;" color="black" size="3">
+            <pre>                      Carrier            Modulator             Depth           gain</pre>
             <webaudio-keyboard id="key1"  value="0" max="1000" step="1" keys="50" width="600" height="125" ></webaudio-keyboard>
-            <pre>  FM(frequency modulation) Synthesizer </pre>
+            <pre>  AM(amplitude moduration) Synthesizer </pre>
+
 
         </div>
+
 
         <script>
 
             var DSX = new DSX;
             var gain = new DSX.Amp({gain: 0.8});
-            var fm = new  DSX.FM({carrier_type:"sine",carrier:500,mod_type :"sine",modfreq:700,depth:1800,gain:0.5});
-            var sax_fm1 =new DSX.valueChange("fm1",fm.carrier);
-            var sax_fm2 =new DSX.valueChange("fm2",fm.modfreq);
-            var sax_fm3 =new DSX.valueChange("fm3",fm.depth);
-            var sax_fm4 =new DSX.valueChange("fm4",fm.gain);
+            var osc = new DSX.Osc({type:"sine",freq:700});
+            var am = new  DSX.AM({mod_type :"sine",modfreq:200,depth:0.5,gain:0.5});
+            var sax_am1 =new DSX.valueChange("fm1",osc.freq);
+            var sax_am2 =new DSX.valueChange("fm2",am.modfreq);
+            var sax_am3 =new DSX.valueChange("fm3",am.depth);
+            var sax_am4 =new DSX.valueChange("fm4",am.gain);
             var play = document.querySelector('.play');
             var stop = document.querySelector('.stop');
 
             play.onclick = function() {
-                fm.connect(gain)
+
+                am.get(osc)
+                am.connect(gain)
                 gain.connect(DAC)
+                osc.start();
+
             }
             stop.onclick = function() {
-                fm.stop();
+                am.stop();
+
             }
 
             var st = new DSX.functionChange("key1", key);
@@ -134,31 +136,33 @@
 
                 var str = 0;
                 str = 880 * 4 * Math.pow(2, (data.note[1] - 69) / 12);
-                fm.carrier.value = str;
+                osc.freq.value = str;
 
                 if (data.note[0] == "1") {
                     gain.gain.value = 0.7;
+
                 }
                 if (data.note[0] == "0") {
                     gain.gain.value = 0;
                 }
-            }
 
+            }
             $("#preset").change(function() {
                 console.log(this.value);
 
                 switch (this.value) {
                     case "1":
-                        fm.carrier.value=10;
-                        fm.modfreq.value=10
-                        fm.depth.value=10;
-
+                        osc.freq.value =200;
+                        am.modfreq.value=10;
+                        am.depth.value=0.5;
+                        am.gain.value=0.5;
                          break;
                     case "2":
 
-                        fm.carrier.value=100;
-                        fm.modfreq.value=100;
-                        fm.depth.value=100;
+                        osc.freq.value =200;
+                        am.modfreq.value=100;
+                        am.depth.value=0.8;
+                        am.gain.value=0.5;
 
                          break;
                     case "3":
@@ -203,19 +207,17 @@
                         break;
                     default:
 
-                 }
-              });
+                }
+            });
+            function openTab( tabName) {
 
-              function openTab( tabName) {
-
-                  if ( tabName !== "close"){
-                      $("#code").show();
-                  } else {
-                      $("#code").hide();
-                  }
-              }
+                if ( tabName !== "close"){
+                    $("#code").show();
+                } else {
+                    $("#code").hide();
+                }
+            }
 
         </script>
-
     </body>
 </html>
