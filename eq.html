@@ -1,0 +1,221 @@
+
+<!--
+ The MIT License (MIT)
+  Copyright (c) 2016  Euyshick Hong(Dr.Hong)
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
+-->
+
+
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="cont/js/platform.js"></script>
+        <link rel="import" href="cont/webcomponents/polymer.html">
+        <link rel="import" href="cont/webcomponents/controls.html">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="./css/eq.css">
+        <title>Audio File upload and  5 band EQ</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="./js/drsax.js"></script>
+    </head>
+
+    <body>
+        <div id="jb-header">
+            <p style="color:white;"> &nbsp;  Audio File upload and  5 band EQ</p>
+        </div>
+        <ul class="tab">
+            <li><a href="#" class="tablinks" onclick="openTab()">JavaScript code</a></li>
+            <li><a href="#" class="tablinks" onclick="openTab('close')">Close</a></li>
+            <li><a href="#" >Preset</a></li>
+            <li>
+                <select class="w3-select w3-border select-set" id ="preset" name="option">
+                    <option value="" disabled selected>  Preset</option>
+                    <option value="1">sine</option>
+                    <option value="2">sawtooth</option>
+                    <option value="square">square</option>
+                    <option value="triangle">triangle</option>
+                </select>
+            </li>
+        </ul>
+        <div id="code" class="tabcontent">
+            <h3>Programing code</h3>
+            <pre>
+                <code>
+                var DSX = new DSX;
+                var gain = new DSX.Amp({gain: 0.5});
+                var file =new DSX.BGdata("life.mp3");
+                var newEQ = new  DSX.EQ({hiGain:-10, mhiGain:-10, miGain:-10, milowGain:-10, lowGain:-10});
+                var sax_EQ1 =new DSX.valueChange("EQ5",newEQ.hiGain);
+                var sax_EQ2 =new DSX.valueChange("EQ4",newEQ.mhiGain);
+                var sax_EQ3 =new DSX.valueChange("EQ3",newEQ.miGain);
+                var sax_EQ4 =new DSX.valueChange("EQ2",newEQ.milowGain);
+                var sax_EQ5 =new DSX.valueChange("EQ1",newEQ.lowGain);
+                var play = document.querySelector('.play');
+                var stop = document.querySelector('.stop');
+
+                play.onclick = function() {
+
+                    file.connect(newEQ)
+                    newEQ.connect(gain)
+                    gain.connect(DAC)
+
+                    file.start();
+                }
+                stop.onclick = function() {
+
+                    file.stop();
+                }
+
+
+                </code>
+            </pre>
+        </div>
+        <div id="jb-content">
+
+
+            <p style="color:white;">&nbsp; Audio File upload and  5 band EQ</p>
+            <button class="play">Play</button>
+            <button class="stop">Stop</button>
+
+
+            <webaudio-knob id="EQ1" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="-10" min="-20" max="20" step="0.01" diameter="110" sprites="50"></webaudio-knob>
+
+            <webaudio-knob id="EQ2" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="-10" min="-20" max="20" step="0.01" diameter="110" sprites="50"></webaudio-knob>
+
+            <webaudio-knob id="EQ3" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="-10" min="-20" max="20" step="0.01" diameter="110" sprites="50"></webaudio-knob>
+
+            <webaudio-knob id="EQ4" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="-10" min="-20" max="20" step="0.01" diameter="110" sprites="50"></webaudio-knob>
+
+            <webaudio-knob id="EQ5" style="display:inline-block; margin:0px;" src="cont/img/ver.png"  value="-10" min="-20" max="20" step="0.01" diameter="110" sprites="50"></webaudio-knob>
+
+
+            <font style="display:inline-block; margin:0px;" color="black" size="3">
+            <pre>                         62.5Hz            250Hz           1000Hz          4000HZ           13000HZ </pre>
+
+            <pre>  loading time of sound file will take a second. </pre>
+
+
+        </div>
+
+
+        <script>
+
+            var DSX = new DSX;
+            var gain = new DSX.Amp({gain: 0.5});
+            var file =new DSX.BGdata("life.mp3");
+            var newEQ = new  DSX.EQ({hiGain:-10, mhiGain:-10, miGain:-10, milowGain:-10, lowGain:-10});
+            var sax_EQ1 =new DSX.valueChange("EQ5",newEQ.hiGain);
+            var sax_EQ2 =new DSX.valueChange("EQ4",newEQ.mhiGain);
+            var sax_EQ3 =new DSX.valueChange("EQ3",newEQ.miGain);
+            var sax_EQ4 =new DSX.valueChange("EQ2",newEQ.milowGain);
+            var sax_EQ5 =new DSX.valueChange("EQ1",newEQ.lowGain);
+            var play = document.querySelector('.play');
+            var stop = document.querySelector('.stop');
+
+            play.onclick = function() {
+
+                file.connect(newEQ)
+                newEQ.connect(gain)
+                gain.connect(DAC)
+
+                file.start();
+            }
+            stop.onclick = function() {
+
+                file.stop();
+            }
+
+
+            $("#preset").change(function() {
+
+                switch (this.value) {
+                    case "1":
+                        newEQ.hiGain.value = 0;
+                        newEQ.mhiGain.value= 20;
+                        newEQ.miGain.value= 20;
+                        newEQ.milowGain.value= -10;
+                        newEQ.lowGain.value= -10;
+                         break;
+                    case "2":
+
+                    newEQ.hiGain.value = 10;
+                    newEQ.mhiGain.value= -10;
+                    newEQ.miGain.value= -10;
+                    newEQ.milowGain.value=0;
+                    newEQ.lowGain.value= 0;
+
+                         break;
+                    case "3":
+
+                        osc.start();
+                        gain.gain=0.2;
+                        osc.frequency.value=10;
+                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 0.1 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 3 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 5 , 1);
+                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                         break;
+                    case "4":
+                        osc.start();
+                        gain.gain=0.2;
+                        // osc.frequency.setValueAtTime(131, drsax.currentTime, 0.7);
+                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 0.7, );
+                        // osc.frequency.setValueAtTime(156, drsax.currentTime +0.8 , 0.7);
+                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 1.5, 0);
+                        // osc.frequency.setValueAtTime(175, drsax.currentTime + 1.6 , 0.7);
+                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 2.3, 0);
+                        osc.frequency.value=10;
+                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
+                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        break;
+                    default:
+
+                }
+            });
+            function openTab( tabName) {
+
+                if ( tabName !== "close"){
+                    $("#code").show();
+                } else {
+                    $("#code").hide();
+                }
+            }
+
+        </script>
+    </body>
+</html>

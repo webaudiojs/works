@@ -1,0 +1,223 @@
+
+<!--
+ The MIT License (MIT)
+  Copyright (c) 2016  Euyshick Hong(Dr.Hong)
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
+-->
+
+
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="cont/js/platform.js"></script>
+        <link rel="import" href="cont/webcomponents/polymer.html">
+        <link rel="import" href="cont/webcomponents/controls.html">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="./css/comp.css">
+        <title> Compressor</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="./js/drsax.js"></script>
+    </head>
+
+    <body>
+        <div id="jb-header">
+            <p style="color:white;"> &nbsp; Compressor</p>
+        </div>
+        <ul class="tab">
+            <li><a href="#" class="tablinks" onclick="openTab()">JavaScript code</a></li>
+            <li><a href="#" class="tablinks" onclick="openTab('close')">Close</a></li>
+            <li><a href="#" >Preset</a></li>
+            <li>
+                <select class="w3-select w3-border select-set" id ="preset" name="option">
+                    <option value="" disabled selected>  Preset</option>
+                    <option value="1">sine</option>
+                    <option value="2">sawtooth</option>
+                    <option value="square">square</option>
+                    <option value="triangle">triangle</option>
+                </select>
+            </li>
+        </ul>
+        <div id="code" class="tabcontent">
+            <h3>Programing code</h3>
+            <pre>
+                <code>
+                var DSX = new DSX;
+                var gain = new DSX.Amp({gain: 0.5});
+                var file =new DSX.BGdata("life.mp3");
+                var newEQ = new  DSX.EQ({hiGain:-10, mhiGain:-10, miGain:-10, milowGain:-10, lowGain:-10});
+                var sax_EQ1 =new DSX.valueChange("EQ5",newEQ.hiGain);
+                var sax_EQ2 =new DSX.valueChange("EQ4",newEQ.mhiGain);
+                var sax_EQ3 =new DSX.valueChange("EQ3",newEQ.miGain);
+                var sax_EQ4 =new DSX.valueChange("EQ2",newEQ.milowGain);
+                var sax_EQ5 =new DSX.valueChange("EQ1",newEQ.lowGain);
+                var play = document.querySelector('.play');
+                var stop = document.querySelector('.stop');
+
+                play.onclick = function() {
+
+                    file.connect(newEQ)
+                    newEQ.connect(gain)
+                    gain.connect(DAC)
+
+                    file.start();
+                }
+                stop.onclick = function() {
+
+                    file.stop();
+                }
+
+
+                </code>
+            </pre>
+        </div>
+        <div id="jb-content">
+
+
+            <p style="color:white;">&nbsp; Audio File upload and  5 band EQ</p>
+            <button class="play">Play</button>
+            <button class="stop">Stop</button>
+
+
+            <webaudio-knob id="Comp1" style=" position:absolute;left :120px;  top: 206px; " src="cont/img/cehi.png" value="-70" min="-100"  max="0" step="1" diameter="90" sprites="49"></webaudio-knob><!-- treshold-->
+            <webaudio-knob id="Comp2" style=" position:absolute;left :224px;  top: 200px; " src="cont/img/cehi.png" value="-20" min="-40" max="0" step="1" diameter="70" sprites="49"></webaudio-knob><!-- reduction-->
+            <webaudio-knob id="Comp5" style=" position:absolute;left :500px;  top: 200px; " src="cont/img/cehi.png" value="0" min="0"  max="1" step="0.01" diameter="70" sprites="49"></webaudio-knob><!-- attack-->
+            <webaudio-knob id="Comp3" style=" position:absolute;left :315px;  top: 200px; " src="cont/img/cehi.png" value="0" max="40" step="1" diameter="70" sprites="49"></webaudio-knob><!-- knee-->
+            <webaudio-knob id="Comp6" style=" position:absolute;left :585px;  top: 200px; " src="cont/img/cehi.png" value="0" min="0" max="1" step="0.01" diameter="70" sprites="49"></webaudio-knob><!-- release-->
+            <webaudio-knob id="Comp4" style=" position:absolute;left :410px;  top: 200px; " src="cont/img/cehi.png" value="0" min="0" max="12" step="1" diameter="70" sprites="49"></webaudio-knob><!-- ratio-->
+
+
+
+
+            <font style="display:inline-block; margin:60px;" color="black" size="3">
+            <pre>     treshold     reduction     knee      ratio      attack    release  </pre>
+
+            <pre>  loading time of sound file will take a second. </pre>
+
+        </div>
+
+
+        <script>
+
+            var DSX = new DSX;
+            var gain = new DSX.Amp({gain: 0.5});
+            var file =new DSX.BGdata("life.mp3");
+            var saxComp = new DSX.saxComp({ threshold: -70,  ratio: 12, });
+
+
+            var sax_Comp1 =new DSX.valueChange("Comp1",saxComp.threshold);
+            var sax_Comp2 =new DSX.valueChange("Comp2",saxComp.reduction);
+            var sax_Comp3 =new DSX.valueChange("Comp3",saxComp.knee);
+            var sax_Comp4 =new DSX.valueChange("Comp4",saxComp.ratio);
+            var sax_Comp5 =new DSX.valueChange("Comp5",saxComp.attack);
+            var sax_Comp6 =new DSX.valueChange("Comp6",saxComp.release);
+
+            var play = document.querySelector('.play');
+            var stop = document.querySelector('.stop');
+            play.onclick = function() {
+
+                file.connect(saxComp)
+                saxComp.connect(gain)
+                gain.connect(DAC)
+                file.start();
+            }
+
+            stop.onclick = function() {
+
+                file.stop();
+            }
+
+            $("#preset").change(function() {
+
+                switch (this.value) {
+                    case "1":
+                        saxComp.threshold.value = -100;
+                        saxComp.reduction.value = 0;
+                        saxComp.knee.value= 40;
+                        saxComp.ratio.value= 12;
+                        saxComp.attack.value= 0;
+                        nsaxComp.release.value= 0;
+                         break;
+                    case "2":
+
+                    saxComp.threshold.value = 0;
+                    saxComp.reduction.value = -40;
+                    saxComp.knee.value= 0;
+                    saxComp.ratio.value= 0;
+                    saxComp.attack.value= 1;
+                    nsaxComp.release.value= 1;
+
+                         break;
+                    case "3":
+
+                        osc.start();
+                        gain.gain=0.2;
+                        osc.frequency.value=10;
+                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 0.1 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 3 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 5 , 1);
+                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                         break;
+                    case "4":
+                        osc.start();
+                        gain.gain=0.2;
+                        // osc.frequency.setValueAtTime(131, drsax.currentTime, 0.7);
+                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 0.7, );
+                        // osc.frequency.setValueAtTime(156, drsax.currentTime +0.8 , 0.7);
+                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 1.5, 0);
+                        // osc.frequency.setValueAtTime(175, drsax.currentTime + 1.6 , 0.7);
+                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 2.3, 0);
+                        osc.frequency.value=10;
+                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
+                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        break;
+                    default:
+
+                }
+            });
+            function openTab( tabName) {
+
+                if ( tabName !== "close"){
+                    $("#code").show();
+                } else {
+                    $("#code").hide();
+                }
+            }
+
+        </script>
+    </body>
+</html>
