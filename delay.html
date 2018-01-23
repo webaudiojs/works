@@ -1,0 +1,219 @@
+
+<!--
+ The MIT License (MIT)
+  Copyright (c) 2016  Euyshick Hong(Dr.Hong)
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
+-->
+
+
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="cont/js/platform.js"></script>
+        <link rel="import" href="cont/webcomponents/polymer.html">
+        <link rel="import" href="cont/webcomponents/controls.html">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="./css/delay.css">
+        <title>Audio File upload and  5 band EQ</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="./js/drsax.js"></script>
+
+    </head>
+
+    <body>
+        <div id="jb-header">
+            <p style="color:white;"> &nbsp; Delay</p>
+        </div>
+        <ul class="tab">
+            <li><a href="#" class="tablinks" onclick="openTab()">JavaScript code</a></li>
+            <li><a href="#" class="tablinks" onclick="openTab('close')">Close</a></li>
+            <li><a href="#" >Preset</a></li>
+            <li>
+                <select class="w3-select w3-border select-set" id ="preset" name="option">
+                    <option value="" disabled selected>  Preset</option>
+                    <option value="1">sine</option>
+                    <option value="2">sawtooth</option>
+                    <option value="square">square</option>
+                    <option value="triangle">triangle</option>
+                </select>
+            </li>
+        </ul>
+        <div id="code" class="tabcontent">
+            <h3>Programing code</h3>
+            <pre>
+                <code>
+                    var DSX = new DSX;
+                    var gain = new DSX.Amp({gain: 0.5});
+                    var adsr = new DSX.ATRS();
+                    var saxDelay = new DSX.Delay({delayTime: 200,feedback: 0.45, });
+                    var ampgain = new DSX.valueChange("knob2", gain.gain);
+
+                    var sax_delay = new DSX.valueChange("delay_time", saxDelay.delayTime);
+                    var sax_feedback = new DSX.valueChange("feed_back", saxDelay.feedback);
+
+                    var sound_on_off = new DSX.functionChange("switch1");
+                    sound_on_off.setRange(switch1);
+
+                    function switch1(e) {
+                        if (e.target.value == "1") {
+                            var osc = new DSX.Osc("sawtooth", 0);
+                            osc.start();
+                            adsr.soundfrom(osc, 0.1, 0.2);
+                            adsr.connect(gain);
+                            gain.connect(saxDelay);
+                            saxDelay.connect(DAC);
+                            var oscfrequency = new DSX.valueChange("knob1", osc.frequency);
+                        }
+                    }
+
+                </code>
+            </pre>
+        </div>
+        <div id="jb-content">
+
+
+            <p style="color:white;">&nbsp; Delay</p>
+            <webaudio-knob id="knob1" style="display:inline-block; margin:0px;" src="cont/img/ver.png" value="0" max="2000" step="1" diameter="110" sprites="50"></webaudio-knob>
+            <webaudio-knob id="knob2" style="display:inline-block; margin:0px;" src="cont/img/ver.png" value="0" max="1" step="0.05" diameter="110" sprites="50"></webaudio-knob>
+            <webaudio-switch id="switch1" style="display:inline-block; margin:0px;" src="cont/img/switch_toggle.png" value="0" max="1" width="60" height="60"></webaudio-switch>
+            <font style="display:inline-block; margin:0px;" color="black" size="3">
+                <pre> osc frequency      gain        on/off     </pre>
+
+
+            <webaudio-knob id="delay_time" style="display:inline-block; margin:0px;" src="cont/img/ver.png" value="0" max="1" step="0.01" diameter="110" sprites="50"></webaudio-knob>
+            <webaudio-knob id="feed_back" style="display:inline-block; margin:0px;" src="cont/img/ver.png" value="0" max="1" step="0.01" diameter="110" sprites="50"></webaudio-knob><br>
+            <font style="display:inline-block; margin:0px;" color="black" size="3">
+                <pre>  Delay time     feedback    </pre>
+
+                It is possible that on/off a sound with switch and <br> user can control a frequency and amplitude gain with dial.
+                </p>
+        </div>
+
+
+        <script>
+
+            var DSX = new DSX;
+            var gain = new DSX.Amp({gain: 0.5});
+            var adsr = new DSX.ATRS();
+            var saxDelay = new DSX.Delay({delayTime: 100,feedback: 0.1, });
+            var ampgain = new DSX.valueChange("knob2", gain.gain);
+
+            var sax_delay = new DSX.valueChange("delay_time", saxDelay.delayTime);
+            var sax_feedback = new DSX.valueChange("feed_back", saxDelay.feedback);
+            var osc = new DSX.Osc({type:"sawtooth",freq:0});
+
+            var sound_on_off = new DSX.functionChange("switch1",switch1);
+            //sound_on_off.setRange(switch1);
+
+            function switch1(e) {
+
+                if (e.target.value === 1) {
+
+                    osc.start();
+                    //adsr.soundfrom(osc);
+                    osc.connect(gain);
+                    gain.connect(saxDelay);
+                    saxDelay.connect(DAC);
+
+
+                    var oscfrequency = new DSX.valueChange("knob1", osc.frequency);
+                } else {
+                    osc.stop();
+                    gain.disconnect();
+                }
+            }
+
+
+            $("#preset").change(function() {
+
+                switch (this.value) {
+                    case "1":
+                        newEQ.hiGain.value = 0;
+                        newEQ.mhiGain.value= 20;
+                        newEQ.miGain.value= 20;
+                        newEQ.milowGain.value= -10;
+                        newEQ.lowGain.value= -10;
+                         break;
+                    case "2":
+
+                    newEQ.hiGain.value = 10;
+                    newEQ.mhiGain.value= -10;
+                    newEQ.miGain.value= -10;
+                    newEQ.milowGain.value=0;
+                    newEQ.lowGain.value= 0;
+
+                         break;
+                    case "3":
+
+                        osc.start();
+                        gain.gain=0.2;
+                        osc.frequency.value=10;
+                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 0.1 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 3 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 5 , 1);
+                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                         break;
+                    case "4":
+                        osc.start();
+                        gain.gain=0.2;
+                        // osc.frequency.setValueAtTime(131, drsax.currentTime, 0.7);
+                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 0.7, );
+                        // osc.frequency.setValueAtTime(156, drsax.currentTime +0.8 , 0.7);
+                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 1.5, 0);
+                        // osc.frequency.setValueAtTime(175, drsax.currentTime + 1.6 , 0.7);
+                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 2.3, 0);
+                        osc.frequency.value=10;
+                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
+                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
+                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+
+                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
+                        osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
+                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        break;
+                    default:
+
+                }
+            });
+            function openTab( tabName) {
+
+                if ( tabName !== "close"){
+                    $("#code").show();
+                } else {
+                    $("#code").hide();
+                }
+            }
+
+        </script>
+    </body>
+</html>

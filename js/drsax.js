@@ -1489,13 +1489,13 @@
             this.sound.connect(this.gain);
             this.now = drsax.currentTime;
             this.gain.gain.cancelScheduledValues(this.now);
-            console.log(this.now);
-            console.log(this.attack.value);
-            console.log(this.release.value);
+            //console.log(this.now);
+            //console.log(this.attack.value);
+            //console.log(this.release.value);
             this.gain.gain.setValueAtTime(0, this.now);
-            this.gain.gain.linearRampToValueAtTime(1, this.now+ 0.01 + this.attack.value ,2);
-            this.gain.gain.linearRampToValueAtTime(0 , this.now +2 + this.attack.value + this.release.value,2);
-            console.log(this.gain.value);
+            this.gain.gain.linearRampToValueAtTime(1, this.now+ 0.01 + this.attack.value ,1);
+            this.gain.gain.linearRampToValueAtTime(0 , this.now +1 + this.attack.value + this.release.value,2);
+            //console.log(this.gain.value);
 
         };
 
