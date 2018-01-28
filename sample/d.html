@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+
+
+    <!--web audio knobe file -->
+<script src="cont/js/platform.js"></script>
+<link rel="import" href="cont/webcomponents/polymer.html">
+<link rel="import" href="cont/webcomponents/controls.html">
+    <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+
+
+
+
+<style>
+.button1 {
+    position: relative;
+    background-color:white;
+    border: 2px;
+    border-style: groove;
+    border-color: black;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 25px 6px;
+    width: 70px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+       border-radius: 8px;
+       box-shadow: 5px 5px 5px black;
+}
+.button1:after {
+    content: "";
+    background: gray;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px!important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.6s
+}
+.button1:active:after {
+     background-color:radial-gradient(circle, white, gray,black);
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
+.button1:hover {
+    background: radial-gradient(circle, white, black);/* Green */
+
+}
+.button2:hover {
+    background: radial-gradient(circle, white,  #3399ff);/* Green */
+
+}
+.button3:hover {
+    background: radial-gradient(circle, white,  #4dff4d);/* Green */
+
+}
+.button2 {background-color: #3399ff;}
+.button3 {background-color: #4dff4d;}
+.button4{background-color: #ff751a;}  /* orenge  */
+.button5 {background-color: #0080ff;}   /* sky  */
+.button6 {background-color: #e6e600;}  /* yellow  */
+.button7 {background-color: #ff471a;}  /* red  */
+.button8 {background-color: #ff80ff;}   /* purple */
+.button9 {background-color: #4dff4d;}
+.button10 {background-color: #4dff4d;}
+.button44 {font-size: 20px;}
+.button55 {font-size: 24px;}
+</style>
+
+
+
+
+
+<!--css backgound -->
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+.closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px !important;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay a {font-size: 20px}
+  .closebtn {
+    font-size: 40px !important;
+    top: 15px;
+    right: 35px;
+  }
+}
+</style>
+
+<style>
+body  {
+    background-image: url("");
+    background-size: 360px 520px;
+    background-repeat:no-repeat;
+
+    background-color: black;
+}
+</style>
+
+  </head>
+
+
+
+
+
+  <!--body start -->
+
+
+  <body>
+
+
+
+
+
+
+
+
+
+  <h2 style="color:white;position:absolute;left:4px;top:-5px" > &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Web-Music drummer </h2>
+
+
+    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+  <webaudio-switch id="switch11" style="position:absolute;left:260px;top:30px "  src="cont/img/onoffn.png"   width="90" height="90"></webaudio-switch>
+
+  <button class="button1  " type="button"  id="switch4" value="0" max= "1" style="color:gray;position:absolute;left:10px;top:110px" >start</button>&nbsp;   &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;
+  <input class="button1" type="button"  value="Stop" onclick="qqqq();" style="color:gray;position:absolute;left:90px;top:110px;">
+
+
+ <button class="button1 " type="button"  id="mute4" style="color:gray;position:absolute;left:170px;top:110px"   value="0" max= "1" >mute</button>
+
+
+     <button class="button1   " style="color:gray;position:absolute;left:250px;top:110px" onclick="text();">Talk</button>
+
+   <br><br>
+
+
+                <webaudio-knob id="monet2"   style="position:absolute;left:24px;top:190px" src="cont/img/knoo.png" value="0" min="100" max="300" step="1" diameter="130" sprites="30"  ></webaudio-knob>
+
+ <webaudio-knob id="monet22"   style="position:absolute;left:184px;top:190px" src="cont/img/knoo.png" value="0" max="200" step="1" diameter="130" sprites="30"  ></webaudio-knob>
+
+
+
+
+     <button class="button1 button6" type="button"  id="switch5" value="0" max= "1"  style="position:absolute;left:50px;top:370px">sound</button>
+       <button class="button1 button3" type="button"  id="switch6" value="0" max= "1"  style="position:absolute;left:140px;top:370px">sound</button>
+       <button class="button1 button8" type="button"  id="switch7" value="0" max= "1"  style="position:absolute;left:230px;top:370px">sound</button>
+
+
+
+
+
+
+
+    <br><br>    <br><br>
+   <br><br>
+
+     <p style="color:gray;position:absolute;left:30px;top:310px;" >    | Sound Timbre  |  </p>
+
+     <p style="color:gray;position:absolute;left:249px;top:320px;" >    | Volume  |  </p>
+
+
+
+
+
+    <h3 id="text" style="color:gray;position:absolute;left:40px;top:44px"> Interactive Web-Music</h3>
+
+
+     <BR><BR>
+
+
+
+
+
+
+
+</body>
+
+
+
+      <div id="myNav" class="overlay">
+  <a  class="closebtn" onclick="closeNav()">Open</a>
+  <div class="overlay-content">
+    <a >Interactive web-music </a>
+    <a>Drummer</a>
+
+  </div>
+  </div>
+
+<script>
+
+window.onload = function(){
+   openNav();
+  //openCity(event, 'London');
+
+    // obj.value = "날코천재";
+}
+
+function openNav() {
+    document.getElementById("myNav").style.width = "100%";
+}
+
+function closeNav() {
+    document.getElementById("myNav").style.width = "0%";
+}
+
+
+   var switch3 = document.getElementById('switch11');
+        switch3.addEventListener("change",sin,false);
+function sin(e) {
+
+        if(e.target.value=="0") {
+      openNav();
+                }
+
+         }
+</script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+
+  <script >
+
+
+
+ var socket = io();
+
+
+
+
+
+ function text() {
+
+        var text;
+
+        text = prompt("Play the light of Monet");
+
+
+        socket.emit('10', text);
+
+    }
+
+
+    socket.on('10', function(text) {
+        document.getElementById("text").innerText = text;
+
+
+
+    });
+
+///////////////////// gray , effecter  ///////////////////////
+   var monet2 = document.getElementById('monet2');
+       monet2.addEventListener("change",knob_2);
+       function knob_2(data) {
+        var str= 0;
+
+           str= data.target.value ;
+             var c = str;
+
+            socket.emit('12', str);
+
+
+}
+
+
+      ///////////////britness,  volume//////
+
+  var monet222 = document.getElementById('monet22');
+       monet222.addEventListener("change",knob_22);
+
+       function knob_22(data) {
+        var str= 0;
+
+         str= data.target.value ;
+         var c = str;
+       socket.emit('13', str);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////// input socket network ////////////////////
+
+ //  var switch3 = document.getElementById('switch3');
+ //       switch3.addEventListener("click",ddd,false);
+
+
+//  function ddd(e) {
+//        str=1;
+ //     str = e.target.value
+
+ //     socket.emit('17', str);
+
+ //     }
+  //    socket.on('17', function(str){
+
+
+ //     if(str=="0") {
+
+  //        aa();
+ //               }
+
+  //    });
+
+
+  /////////////////////////////////////   start ///////////
+
+
+
+    var switch4 = document.getElementById('switch4');
+        switch4.addEventListener("click",dd1,false);
+
+
+  function dd1(e) {
+        str=1;
+      str = e.target.value
+
+      socket.emit('18', str);
+
+  }
+
+
+
+
+
+
+      ///////////////// stop////////
+
+    function qqqq(){
+         str = 7;
+
+
+       socket.emit('star', 'data');
+      }
+
+   /////////////////////////////////////  mute//////////////
+
+
+    var mute4 = document.getElementById('mute4');
+        mute4.addEventListener("click",dd3,false);
+
+
+  function dd3(e) {
+        str=1;
+      str = e.target.value
+
+      socket.emit('23', str);
+
+  }
+
+
+
+ ///////////////////////////////////// sound   wave 1 //////////////
+
+    var switch5 = document.getElementById('switch5');
+        switch5.addEventListener("click",dd5,false);
+
+
+  function dd5(e) {
+        str=1;
+      str = e.target.value
+
+      socket.emit('5', str);
+
+  }
+
+  ///////////////////////////////////// sound 2  //////////////
+
+
+    var switch6 = document.getElementById('switch6');
+        switch6.addEventListener("click",dde5,false);
+
+
+  function dde5(e) {
+        str=1;
+      str = e.target.value
+
+      socket.emit('7', str);
+
+  }
+
+  ///////////////////////////////////// sound 3  //////////////
+    var switch7 = document.getElementById('switch7');
+        switch7.addEventListener("click",dd7,false);
+
+
+  function dd7(e) {
+        str=1;
+      str = e.target.value
+
+      socket.emit('11', str);
+
+  }
+
+
+  socket.on('10', function(text) {
+            document.getElementById("text").innerText = text;
+                    });
+
+
+
+
+</script>
+
+
+</html>
