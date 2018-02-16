@@ -97,8 +97,12 @@
             <webaudio-knob id="feed_back" style="display:inline-block; margin:0px;" src="cont/img/ver.png" value="0" max="1" step="0.01" diameter="110" sprites="50"></webaudio-knob><br>
             <font style="display:inline-block; margin:0px;" color="black" size="3">
                 <pre>  Delay time     feedback    </pre>
-
-                Keyboard piano: C, D, E, F, G, A, B.
+                <div class="margin-data">
+                    <span id="one" style="margin-left:20px;">0</span>
+                    <span id="two">0</span>
+                </div>
+                <P>
+                    Keyboard piano: C, D, E, F, G, A, B.
                 </p>
         </div>
 
@@ -128,6 +132,17 @@
                 gain.gain.exponentialRampToValueAtTime(0.6, drsax.currentTime + 0.5, 0.1);
                 gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 0.6 , 0.1);
             }
+
+            new DSX.functionChange("delay_time", function(e){
+
+              let eqData_1 = (e.target.value *1).toFixed(2);
+              $("#one").text(eqData_1);
+            });
+            new DSX.functionChange("feed_back", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(2);
+              $("#two").text(eqData_1);
+            });
+
             $(function() {
 
                 $('body').keydown(function( event ) {
@@ -167,18 +182,26 @@
                             case "1":
                                 saxDelay.delayTime.value=0.3;
                                 saxDelay.feedback.value=0.3;
+                                $("#one").text(0.3);
+                                $("#two").text(0.3);
                             break;
                             case "2":
-                                saxDelay.delayTime.value=0.5;
+                                saxDelay.delayTime.value=0.3;
                                 saxDelay.feedback.value=0.5;
+                                $("#one").text(0.3);
+                                $("#two").text(0.5);
                             break;
                             case "3":
                                 saxDelay.delayTime.value=0.7;
                                 saxDelay.feedback.value=0.7;
+                                $("#one").text(0.7);
+                                $("#two").text(0.7);
                             break;
                             case "4":
-                                saxDelay.delayTime.value=0.9;
+                                saxDelay.delayTime.value=0.7;
                                 saxDelay.feedback.value=0.9;
+                                $("#one").text(0.7);
+                                $("#two").text(0.9);
                             default:
 
                         }

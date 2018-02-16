@@ -98,6 +98,12 @@
 
             <font style="display:inline-block; margin:0px;" color="black" size="3">
             <pre>                      Carrier            Modulator             Depth           gain</pre>
+            <div class="margin-data">
+                <span id="one" style="margin-left:130px;">0</span>
+                <span id="two">0</span>
+                <span id="three">0</span>
+                <span id="four">0</span>
+            </div>
             <webaudio-keyboard id="key1"  value="0" max="1000" step="1" keys="50" width="600" height="125" ></webaudio-keyboard>
             <pre>  AM(amplitude moduration) Synthesizer </pre>
 
@@ -130,6 +136,22 @@
                 am.stop();
 
             }
+            new DSX.functionChange("fm1", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#one").text(eqData_1);
+            });
+            new DSX.functionChange("fm2", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#two").text(eqData_1);
+            });
+            new DSX.functionChange("fm3", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(1);
+              $("#three").text(eqData_1);
+            });
+            new DSX.functionChange("fm4", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(1);
+              $("#four").text(eqData_1);
+            });
 
             var st = new DSX.functionChange("key1", key);
             function key(data) {
@@ -156,6 +178,12 @@
                         am.modfreq.value=10;
                         am.depth.value=0.5;
                         am.gain.value=0.5;
+
+                        $("#one").text(200);
+                        $("#two").text(10);
+                        $("#three").text(0.5);
+                        $("#four").text(0.5);
+
                          break;
                     case "2":
 
@@ -164,46 +192,35 @@
                         am.depth.value=0.8;
                         am.gain.value=0.5;
 
+                        $("#one").text(200);
+                        $("#two").text(100);
+                        $("#three").text(0.8);
+                        $("#four").text(0.5);
+
                          break;
                     case "3":
 
-                        osc.start();
-                        gain.gain=0.2;
-                        osc.frequency.value=10;
-                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
-                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        osc.freq.value =1200;
+                        am.modfreq.value=1000;
+                        am.depth.value=0.1;
+                        am.gain.value=0.5;
 
-                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 0.1 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 3 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 5 , 1);
-                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        $("#one").text(1200);
+                        $("#two").text(1000);
+                        $("#three").text(0.1);
+                        $("#four").text(0.5);
 
                          break;
                     case "4":
-                        osc.start();
-                        gain.gain=0.2;
-                        // osc.frequency.setValueAtTime(131, drsax.currentTime, 0.7);
-                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 0.7, );
-                        // osc.frequency.setValueAtTime(156, drsax.currentTime +0.8 , 0.7);
-                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 1.5, 0);
-                        // osc.frequency.setValueAtTime(175, drsax.currentTime + 1.6 , 0.7);
-                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 2.3, 0);
-                        osc.frequency.value=10;
-                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
-                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        osc.freq.value =2200;
+                        am.modfreq.value=3000;
+                        am.depth.value=0.9;
+                        am.gain.value=0.5;
 
-                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
-                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        $("#one").text(2200);
+                        $("#two").text(3000);
+                        $("#three").text(0.9);
+                        $("#four").text(0.5);
                         break;
                     default:
 

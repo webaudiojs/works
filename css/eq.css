@@ -98,3 +98,7 @@
         border-top: none;
         border-radius: 25px;
     }
+    .margin-data{}
+    .margin-data  > span {
+        margin-left:90px;
+    }

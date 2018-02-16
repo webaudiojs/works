@@ -48,10 +48,11 @@
             <li>
                 <select class="w3-select w3-border select-set" id ="preset" name="option">
                     <option value="" disabled selected>  Preset</option>
-                    <option value="1">preset 1</option>
-                    <option value="2">preset 2</option>
-                    <option value="3">preset 3</option>
-                    <option value="4">preset 4</option>
+                    <option value="1">vocal</option>
+                    <option value="2">brass</option>
+                    <option value="3">guitar</option>
+                    <option value="4">drum</option>
+                    <option value="5">dance</option>
                 </select>
             </li>
         </ul>
@@ -109,6 +110,14 @@
             <font style="display:inline-block; margin:60px;" color="black" size="3">
             <pre>     treshold     reduction     knee      ratio      attack    release  </pre>
 
+            <div class="margin-data">
+                <span id="one" style="margin-left:40px;">0</span>
+                <span id="two">0</span>
+                <span id="three">0</span>
+                <span id="four">0</span>
+                <span id="five">0</span>
+                <span id="six">0</span>
+            </div>
             <pre>  loading time of sound file will take a second. </pre>
 
         </div>
@@ -144,66 +153,126 @@
                 file.stop();
             }
 
+            new DSX.functionChange("Comp1", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#one").text(eqData_1);
+            });
+            new DSX.functionChange("Comp2", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#two").text(eqData_1);
+            });
+            new DSX.functionChange("Comp3", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#three").text(eqData_1);
+            });
+            new DSX.functionChange("Comp4", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#four").text(eqData_1);
+            });
+            new DSX.functionChange("Comp5", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(2);
+              $("#five").text(eqData_1);
+            });
+            new DSX.functionChange("Comp6", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(2);
+              $("#six").text(eqData_1);
+            });
+
             $("#preset").change(function() {
 
-                switch (this.value) {
-                    case "1":
-                        saxComp.threshold.value = -40;
-                        saxComp.reduction.value = 0;
-                        saxComp.knee.value= 40;
-                        saxComp.ratio.value= 12;
-                        saxComp.attack.value= 0;
-                        saxComp.release.value= 0;
-                         break;
-                    case "2":
 
-                    saxComp.threshold.value = 0;
-                    saxComp.reduction.value = -40;
+                // threshold range : -100 to 0.   reduction range : -40 to 0. absolutely!
+                //
+                // knee range : 0 to 40.   ratio range : 0 to 12. absolutely!
+                //
+                // attack range : 0 to 1.   release range : 0 to 1. absolutely!
+
+
+                switch (this.value) {
+                    case "1": // vocal //brass // guitar //drum //dance
+                        saxComp.threshold.value = -17;
+                        saxComp.reduction.value = -10;
+                        saxComp.knee.value= 0;
+                        saxComp.ratio.value= 3.4;
+                        saxComp.attack.value= 0.3;
+                        saxComp.release.value= 0;
+
+                        $("#one").text(-17);
+                        $("#two").text(-10);
+                        $("#three").text(0);
+                        $("#four").text(3.4);
+                        $("#five").text(0.3);
+                        $("#six").text(0);
+                         break;
+
+                    case "2": //brass
+
+                    saxComp.threshold.value = -19;
+                    saxComp.reduction.value = -5;
                     saxComp.knee.value= 0;
                     saxComp.ratio.value= 3;
-                    saxComp.attack.value= 1;
+                    saxComp.attack.value= 0.2;
                     saxComp.release.value= 1;
 
-                         break;
-                    case "3":
-
-                        osc.start();
-                        gain.gain=0.2;
-                        osc.frequency.value=10;
-                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
-                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
-
-                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 0.1 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 3 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 5 , 1);
-                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                    $("#one").text(-19);
+                    $("#two").text(-5);
+                    $("#three").text(0);
+                    $("#four").text(3);
+                    $("#five").text(0.2);
+                    $("#six").text(0);
 
                          break;
-                    case "4":
-                        osc.start();
-                        gain.gain=0.2;
-                        // osc.frequency.setValueAtTime(131, drsax.currentTime, 0.7);
-                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 0.7, );
-                        // osc.frequency.setValueAtTime(156, drsax.currentTime +0.8 , 0.7);
-                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 1.5, 0);
-                        // osc.frequency.setValueAtTime(175, drsax.currentTime + 1.6 , 0.7);
-                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 2.3, 0);
-                        osc.frequency.value=10;
-                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
-                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                    case "3": // guitar
 
-                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
-                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        saxComp.threshold.value = -24;
+                        saxComp.reduction.value = -5;
+                        saxComp.knee.value= 1;
+                        saxComp.ratio.value= 5.2;
+                        saxComp.attack.value= 1.6;
+                        saxComp.release.value= 0.5;
+
+                        $("#one").text(-24);
+                        $("#two").text(-5);
+                        $("#three").text(1);
+                        $("#four").text(5.2);
+                        $("#five").text(1.6);
+                        $("#six").text(0.5);
+                         break;
+
+                    case "4": //drum
+
+                        saxComp.threshold.value = -27;
+                        saxComp.reduction.value = -15;
+                        saxComp.knee.value= 1;
+                        saxComp.ratio.value= 3.3;
+                        saxComp.attack.value= 0.7;
+                        saxComp.release.value= 0.5;
+
+                        $("#one").text(-27);
+                        $("#two").text(-15);
+                        $("#three").text(1);
+                        $("#four").text(3.3);
+                        $("#five").text(0.7);
+                        $("#six").text(0.5);
+
+                        break; 
+
+                    case "5": //dance
+
+                        saxComp.threshold.value = -24;
+                        saxComp.reduction.value = -5;
+                        saxComp.knee.value= 1;
+                        saxComp.ratio.value= 2.7;
+                        saxComp.attack.value= 0;
+                        saxComp.release.value= 0.76;
+
+                        $("#one").text(-24);
+                        $("#two").text(-5);
+                        $("#three").text(1);
+                        $("#four").text(2.7);
+                        $("#five").text(0);
+                        $("#six").text(0.76);
+
                         break;
                     default:
 

@@ -47,11 +47,14 @@
             <li><a href="#" >Preset</a></li>
             <li>
                 <select class="w3-select w3-border select-set" id ="preset" name="option">
-                    <option value="" disabled selected>  Preset</option>
-                    <option value="1">preset 1</option>
-                    <option value="2">preset 2</option>
-                    <option value="3">preset 3</option>
-                    <option value="4">preset 4</option>
+                    <option value="" disabled selected> EQ Preset</option>
+                    <option value="1">normal</option>
+                    <option value="2">voice</option>
+                    <option value="3">pop</option>
+                    <option value="4">dance</option>
+                    <option value="5">rock</option>
+                    <option value="6">metal</option>
+                    <option value="7">classic</option>
                 </select>
             </li>
         </ul>
@@ -109,7 +112,13 @@
 
             <font style="display:inline-block; margin:0px;" color="black" size="3">
             <pre>                         62.5Hz            250Hz           1000Hz          4000HZ           13000HZ </pre>
-
+            <div class="margin-data">
+                <span id="one" style="margin-left:150px;">0</span>
+                <span id="two">0</span>
+                <span id="three">0</span>
+                <span id="four">0</span>
+                <span id="five">0</span>
+            </div>
             <pre>  loading time of sound file will take a second. </pre>
 
 
@@ -142,66 +151,131 @@
 
                 file.stop();
             }
+            new DSX.functionChange("EQ1", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#one").text(eqData_1);
+            });
+            new DSX.functionChange("EQ2", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#two").text(eqData_1);
+            });
+            new DSX.functionChange("EQ3", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#three").text(eqData_1);
+            });
+            new DSX.functionChange("EQ4", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#four").text(eqData_1);
+            });
+            new DSX.functionChange("EQ5", function(e){
+              let eqData_1 = (e.target.value *1).toFixed(0);
+              $("#five").text(eqData_1);
+            });
 
 
             $("#preset").change(function() {
 
                 switch (this.value) {
-                    case "1":
+                    case "1": //normal
                         newEQ.hiGain.value = 0;
-                        newEQ.mhiGain.value= 20;
-                        newEQ.miGain.value= 20;
-                        newEQ.milowGain.value= -10;
-                        newEQ.lowGain.value= -10;
-                         break;
-                    case "2":
+                        newEQ.mhiGain.value= 0;
+                        newEQ.miGain.value= 0;
+                        newEQ.milowGain.value= 0;
+                        newEQ.lowGain.value= 0;
 
-                    newEQ.hiGain.value = 10;
-                    newEQ.mhiGain.value= -10;
-                    newEQ.miGain.value= -10;
-                    newEQ.milowGain.value=0;
-                    newEQ.lowGain.value= 0;
+                        $("#one").text(0);
+                        $("#two").text(0);
+                        $("#three").text(0);
+                        $("#four").text(0);
+                        $("#five").text(0);
 
                          break;
-                    case "3":
+                    case "2": //voice
 
-                        osc.start();
-                        gain.gain=0.2;
-                        osc.frequency.value=10;
-                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
-                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        newEQ.hiGain.value = -8;
+                        newEQ.mhiGain.value= 0;
+                        newEQ.miGain.value= 5;
+                        newEQ.milowGain.value=-2;
+                        newEQ.lowGain.value= -4;
 
-                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 0.1 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(1000, drsax.currentTime + 3 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 5 , 1);
-                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        $("#one").text(-8);
+                        $("#two").text(0);
+                        $("#three").text(5);
+                        $("#four").text(-2);
+                        $("#five").text(-4);
 
                          break;
-                    case "4":
-                        osc.start();
-                        gain.gain=0.2;
-                        // osc.frequency.setValueAtTime(131, drsax.currentTime, 0.7);
-                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 0.7, );
-                        // osc.frequency.setValueAtTime(156, drsax.currentTime +0.8 , 0.7);
-                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 1.5, 0);
-                        // osc.frequency.setValueAtTime(175, drsax.currentTime + 1.6 , 0.7);
-                        // osc.frequency.setValueAtTime(0, drsax.currentTime + 2.3, 0);
-                        osc.frequency.value=10;
-                        gain.gain.exponentialRampToValueAtTime(0.3, drsax.currentTime + 1 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.9, drsax.currentTime + 3 , 2);
-                        gain.gain.exponentialRampToValueAtTime(0.4, drsax.currentTime + 5 , 1);
-                        gain.gain.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                    case "3": //pop
+                        newEQ.hiGain.value = -5;
+                        newEQ.mhiGain.value= 6;
+                        newEQ.miGain.value=  10;
+                        newEQ.milowGain.value= 4;
+                        newEQ.lowGain.value= -6;
 
-                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 1 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(20000, drsax.currentTime + 2 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(10, drsax.currentTime + 3 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(2000, drsax.currentTime + 4 , 1);
-                        osc.frequency.exponentialRampToValueAtTime(200, drsax.currentTime + 5 , 1);
-                        osc.frequency.linearRampToValueAtTime(0, drsax.currentTime + 6 , 1);
+                        $("#one").text(-5);
+                        $("#two").text(6);
+                        $("#three").text(10);
+                        $("#four").text(4);
+                        $("#five").text(-6);
+
+                         break;
+                    case "4": //dance
+                        newEQ.hiGain.value = 13;
+                        newEQ.mhiGain.value= 0;
+                        newEQ.miGain.value= 6;
+                        newEQ.milowGain.value=8;
+                        newEQ.lowGain.value= 5;
+
+                        $("#one").text(13);
+                        $("#two").text(0);
+                        $("#three").text(6);
+                        $("#four").text(8);
+                        $("#five").text(5);
+
+
+                        break;
+                    case "5": //rock
+                        newEQ.hiGain.value = 12;
+                        newEQ.mhiGain.value= 9;
+                        newEQ.miGain.value= -5;
+                        newEQ.milowGain.value=9;
+                        newEQ.lowGain.value=11;
+
+                        $("#one").text(12);
+                        $("#two").text(9);
+                        $("#three").text(-5);
+                        $("#four").text(9);
+                        $("#five").text(11);
+
+                        break;
+
+                    case "6": //metal
+                        newEQ.hiGain.value = 9;
+                        newEQ.mhiGain.value= 4;
+                        newEQ.miGain.value=  15;
+                        newEQ.milowGain.value= 6;
+                        newEQ.lowGain.value= 2;
+
+                        $("#one").text(9);
+                        $("#two").text(4);
+                        $("#three").text(15);
+                        $("#four").text(6);
+                        $("#five").text(2);
+
+                        break;
+                    case "7":
+                        newEQ.hiGain.value = 9;
+                        newEQ.mhiGain.value= 7;
+                        newEQ.miGain.value= -7;
+                        newEQ.milowGain.value=8;
+                        newEQ.lowGain.value= 8;
+
+                        $("#one").text(9);
+                        $("#two").text(7);
+                        $("#three").text(-7);
+                        $("#four").text(8);
+                        $("#five").text(8);
+
                         break;
                     default:
 
