@@ -147,44 +147,39 @@
 
 
         new DSX.functionChange("EQ1", function(e){
-          let eqData_1 = (e.target.value *1).toFixed(0);
-          $("#one").text(eqData_1);
+            let eqData_1 = (e.target.value *1).toFixed(0);
+            $("#one").text(eqData_1);
         });
         new DSX.functionChange("EQ2", function(e){
-          let eqData_1 = (e.target.value *1).toFixed(0);
-          $("#two").text(eqData_1);
+            let eqData_1 = (e.target.value *1).toFixed(0);
+           $("#two").text(eqData_1);
         });
         new DSX.functionChange("EQ3", function(e){
-          let eqData_1 = (e.target.value *1).toFixed(0);
-          $("#three").text(eqData_1);
+            let eqData_1 = (e.target.value *1).toFixed(0);
+            $("#three").text(eqData_1);
         });
         new DSX.functionChange("EQ4", function(e){
-          let eqData_1 = (e.target.value *1).toFixed(1);
-          $("#four").text(eqData_1);
+            let eqData_1 = (e.target.value *1).toFixed(1);
+            $("#four").text(eqData_1);
         });
 
         var st =new DSX.functionChange("key1",key);//  aux.gain,gain.gain ables
             function key(data) {
                 var str=0;
                 str  = 880 * 4 * Math.pow(2, (data.note[1] - 69) / 12);
-                   osc.freq.value = str;
+                osc.freq.value = str;
 
                 if(data.note[0]=="1") {
-
                    gain.gain.value = 0.7;
-
                 }
                 if(data.note[0]=="0") {
 
                     gain.gain.value = 0;
                 }
-
             }
 
-
-
             $("#preset").change(function() {
-                console.log(this.value);
+                //console.log(this.value);
 
                 switch (this.value) {
                     case "1":

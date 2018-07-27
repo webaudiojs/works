@@ -20,8 +20,6 @@
 
 -->
 
-
-
 <!doctype html>
 <html>
     <head>
@@ -85,7 +83,6 @@
         </div>
         <div id="jb-content">
 
-
             <p style="color:white;"> &nbsp;  AM(amplitude moduration) Synthesizer </p>
             <button class="play">Play</button>
             <button class="stop">Stop</button>
@@ -106,13 +103,9 @@
             </div>
             <webaudio-keyboard id="key1"  value="0" max="1000" step="1" keys="50" width="600" height="125" ></webaudio-keyboard>
             <pre>  AM(amplitude moduration) Synthesizer </pre>
-
-
         </div>
 
-
         <script>
-
             var DSX = new DSX;
             var gain = new DSX.Amp({gain: 0.8});
             var osc = new DSX.Osc({type:"sine",freq:700});
@@ -130,27 +123,26 @@
                 am.connect(gain)
                 gain.connect(DAC)
                 osc.start();
-
             }
             stop.onclick = function() {
                 am.stop();
 
             }
             new DSX.functionChange("fm1", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#one").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#one").text(eqData_1);
             });
             new DSX.functionChange("fm2", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#two").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#two").text(eqData_1);
             });
             new DSX.functionChange("fm3", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(1);
-              $("#three").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(1);
+                $("#three").text(eqData_1);
             });
             new DSX.functionChange("fm4", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(1);
-              $("#four").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(1);
+                $("#four").text(eqData_1);
             });
 
             var st = new DSX.functionChange("key1", key);
@@ -162,16 +154,13 @@
 
                 if (data.note[0] == "1") {
                     gain.gain.value = 0.7;
-
                 }
                 if (data.note[0] == "0") {
                     gain.gain.value = 0;
                 }
-
             }
             $("#preset").change(function() {
-                console.log(this.value);
-
+                //console.log(this.value);
                 switch (this.value) {
                     case "1":
                         osc.freq.value =200;
@@ -227,14 +216,12 @@
                 }
             });
             function openTab( tabName) {
-
                 if ( tabName !== "close"){
                     $("#code").show();
                 } else {
                     $("#code").hide();
                 }
             }
-
         </script>
     </body>
 </html>

@@ -123,8 +123,6 @@
 
 
         </div>
-
-
         <script>
 
             var DSX = new DSX;
@@ -144,32 +142,30 @@
                 file.connect(newEQ)
                 newEQ.connect(gain)
                 gain.connect(DAC)
-
                 file.start();
             }
             stop.onclick = function() {
-
                 file.stop();
             }
             new DSX.functionChange("EQ1", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#one").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#one").text(eqData_1);
             });
             new DSX.functionChange("EQ2", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#two").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#two").text(eqData_1);
             });
             new DSX.functionChange("EQ3", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#three").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#three").text(eqData_1);
             });
             new DSX.functionChange("EQ4", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#four").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#four").text(eqData_1);
             });
             new DSX.functionChange("EQ5", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#five").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#five").text(eqData_1);
             });
 
 
@@ -278,7 +274,6 @@
 
                         break;
                     default:
-
                 }
             });
             function openTab( tabName) {
