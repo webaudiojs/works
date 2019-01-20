@@ -37,9 +37,7 @@
 
         <title>FM(frequency modulation) Synthesizer</title>
     </head>
-
     <body>
-
         <div id="jb-header">
             <p style="color:white;"> &nbsp;  FM(frequency modulation) Synthesizer
             </p>
@@ -151,10 +149,8 @@
               let eqData_1 = (e.target.value *1).toFixed(1);
               $("#four").text(eqData_1);
             });
-
             var st = new DSX.functionChange("key1", key);
             function key(data) {
-
                 var str = 0;
                 str = 880 * 4 * Math.pow(2, (data.note[1] - 69) / 12);
                 fm.carrier.value = str;

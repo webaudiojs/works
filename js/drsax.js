@@ -107,7 +107,7 @@
             return new DSX();
         }
         connectify(drsax);
-        drsaxContext = drsax;
+        drsaxContext = drsax.resume();
         drsaxInstance = this;
     }
 
@@ -1746,13 +1746,6 @@
 
         //this should not be necessary
     };
-
-    //  window.Record = Record;
-
-    // DSX.get = function(a, b) {
-    //     var sum = a + b;
-    //     return sum;
-    // };
 
     DSX.dac = DAC = drsax.destination;
 

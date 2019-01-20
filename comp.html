@@ -147,46 +147,42 @@
                 gain.connect(DAC)
                 file.start();
             }
-
             stop.onclick = function() {
-
                 file.stop();
             }
 
             new DSX.functionChange("Comp1", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#one").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#one").text(eqData_1);
             });
             new DSX.functionChange("Comp2", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#two").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#two").text(eqData_1);
             });
             new DSX.functionChange("Comp3", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#three").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#three").text(eqData_1);
             });
             new DSX.functionChange("Comp4", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(0);
-              $("#four").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(0);
+                $("#four").text(eqData_1);
             });
             new DSX.functionChange("Comp5", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(2);
-              $("#five").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(2);
+                $("#five").text(eqData_1);
             });
             new DSX.functionChange("Comp6", function(e){
-              let eqData_1 = (e.target.value *1).toFixed(2);
-              $("#six").text(eqData_1);
+                let eqData_1 = (e.target.value *1).toFixed(2);
+                $("#six").text(eqData_1);
             });
 
             $("#preset").change(function() {
-
 
                 // threshold range : -100 to 0.   reduction range : -40 to 0. absolutely!
                 //
                 // knee range : 0 to 40.   ratio range : 0 to 12. absolutely!
                 //
                 // attack range : 0 to 1.   release range : 0 to 1. absolutely!
-
 
                 switch (this.value) {
                     case "1": // vocal //brass // guitar //drum //dance
@@ -207,19 +203,19 @@
 
                     case "2": //brass
 
-                    saxComp.threshold.value = -19;
-                    saxComp.reduction.value = -5;
-                    saxComp.knee.value= 0;
-                    saxComp.ratio.value= 3;
-                    saxComp.attack.value= 0.2;
-                    saxComp.release.value= 1;
+                        saxComp.threshold.value = -19;
+                        saxComp.reduction.value = -5;
+                        saxComp.knee.value= 0;
+                        saxComp.ratio.value= 3;
+                        saxComp.attack.value= 0.2;
+                        saxComp.release.value= 1;
 
-                    $("#one").text(-19);
-                    $("#two").text(-5);
-                    $("#three").text(0);
-                    $("#four").text(3);
-                    $("#five").text(0.2);
-                    $("#six").text(0);
+                        $("#one").text(-19);
+                        $("#two").text(-5);
+                        $("#three").text(0);
+                        $("#four").text(3);
+                        $("#five").text(0.2);
+                        $("#six").text(0);
 
                          break;
                     case "3": // guitar
@@ -255,7 +251,7 @@
                         $("#five").text(0.7);
                         $("#six").text(0.5);
 
-                        break; 
+                        break;
 
                     case "5": //dance
 
@@ -279,14 +275,12 @@
                 }
             });
             function openTab( tabName) {
-
                 if ( tabName !== "close"){
                     $("#code").show();
                 } else {
                     $("#code").hide();
                 }
             }
-
         </script>
     </body>
 </html>
