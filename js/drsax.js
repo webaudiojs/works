@@ -107,7 +107,7 @@
             return new DSX();
         }
         connectify(drsax);
-        drsaxContext = drsax.resume();
+        drsaxContext = drsax;
         drsaxInstance = this;
     }
 
