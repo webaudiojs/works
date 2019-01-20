@@ -65,6 +65,7 @@
         var sound_on_off = new DSX.functionChange("switch",switch_f);
         function switch_f(e) {
             if (e.target.value == "1") {
+                DSX.resume();
                 osc.start();
                 gain.connect(DAC);
                 $("#on_text").text("sound on!");
