@@ -149,7 +149,7 @@
 
         <webaudio-switch id="switch1" style="display:inline-block; margin:0px;" src="cont/img/switch_toggle.png" value="0" max="1" width="60" height="60"></webaudio-switch>
         <font style="display:inline-block; margin:0px;" color="white" size="4">
-            <pre>mic gain    on/off</pre>
+            <pre>osc on/off</pre>
         <canvas id="canv" style="width:220px;height:100px;" ></canvas>
 
     </div>
@@ -164,15 +164,16 @@
         sound_on_off.setRange(switch1);
         function switch1(e) {
             if (e.target.value == "1") {
-                osc.connect(gain);
-                gain.connect(DAC);
+                osc.start();
             }
             if (e.target.value == "0") {
-                gain.disconnect();
+                gain.stop();
             }
         }
         var frequrncy_canvas = new DSX.freqDomain('canv', "red"); // canvas
         frequrncy_canvas.getAnalyser(gain);
+        osc.connect(gain);
+        gain.connect(DAC);
 
         function openCity(evt, cityName) {
             var i, tabcontent, tablinks;
